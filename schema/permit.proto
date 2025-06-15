@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package permit;
+
+// EventType enum to differentiate PERMIT categories
+enum EventType {
+  UNKNOWN = 0;
+  POSITION = 1;
+  EXPOSURE = 2;
+  RISK = 3;
+  MARGIN = 4;
+  INTERACTION = 5;
+  TRADE = 6;
+}
+
+// Base PERMIT event schema
+message PermitEvent {
+  string user_id = 1;            // UUID or user handle
+  EventType type = 2;            // One of the PERMIT categories
+  int64 timestamp_ms = 3;        // Epoch timestamp in milliseconds
+
+  oneof payload {
+    PositionEvent position = 4;
+    ExposureEvent exposure = 5;
+    RiskEvent risk = 6;
+    MarginEvent margin = 7;
+    InteractionEvent interaction = 8;
+    TradeEvent trade = 9;
+  }
+}
+
+// --- Submessages for each PERMIT type ---
+
+message PositionEvent {
+  string instrument = 1;
+  double quantity = 2;
+  double avg_price = 3;
+}
+
+message ExposureEvent {
+  string asset_class = 1;        // e.g. "equities", "fx"
+  double notional = 2;
+  string currency = 3;
+}
+
+message RiskEvent {
+  double value_at_risk = 1;
+  double beta = 2;
+  double stress_loss = 3;
+}
+
+message MarginEvent {
+  double required_margin = 1;
+  double available_margin = 2;
+  string margin_type = 3;        // e.g. "initial", "variation"
+}
+
+message InteractionEvent {
+  string action = 1;             // e.g. "login", "order_submit"
+  string source_ip = 2;
+  string platform = 3;           // e.g. "mobile", "desktop"
+}
+
+message TradeEvent {
+  string instrument = 1;
+  string side = 2;               // "buy" or "sell"
+  double quantity = 3;
+  double execution_price = 4;
+  string trade_id = 5;
+}
+
+// --- Integrate with gRPC ---
+service IngestionService {
+  rpc SubmitEvent (PermitEvent) returns (Ack);
+}
+
+message Ack {
+  bool success = 1;
+  string message = 2;
+}
