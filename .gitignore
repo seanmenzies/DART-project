@@ -1,0 +1,38 @@
+# Build artifacts
+/build/
+/cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+install/
+*.cmake
+*.a
+*.so
+*.dll
+*.dylib
+*.lib
+*.exe
+*.out
+*.o
+*.obj
+*.pch
+*.pdb
+
+# Generated protobuf/grpc files (if needed to regenerate)
+*.pb.cc
+*.pb.h
+*.grpc.pb.cc
+*.grpc.pb.h
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.sublime*
+*.code-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
