@@ -1,0 +1,3 @@
+/home/sean-linux/Projects/DART-project/ingestion/build/CMakeFiles/ingestion_service.dir
+/home/sean-linux/Projects/DART-project/ingestion/build/CMakeFiles/edit_cache.dir
+/home/sean-linux/Projects/DART-project/ingestion/build/CMakeFiles/rebuild_cache.dir
