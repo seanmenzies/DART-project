@@ -22,25 +22,48 @@ set(PROTO_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/permit.grpc.pb.cc
 )
 
+# Source files for main ingestion service
 set(SERVICE_SRCS
     src/ingestion_service.cpp
     src/main.cpp
+    src/ProtobufFileWriter.cpp
 )
 
-# Define the executable
+# Ingestion service executable
 add_executable(ingestion_service
     ${PROTO_SRCS}
     ${SERVICE_SRCS}
 )
 
-# Target include directories for cleaner includes
 target_include_directories(ingestion_service PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-# Link libraries
 target_link_libraries(ingestion_service
+    protobuf::libprotobuf
+    gRPC::grpc++
+)
+
+# Source files for test client
+set(TEST_CLIENT_SRCS
+    tests/IngestionTestClient.cpp
+    ${PROTO_SRCS}
+)
+
+# Test client executable
+add_executable(ingestion_test_client
+    ${TEST_CLIENT_SRCS}
+)
+
+target_include_directories(ingestion_test_client PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(ingestion_test_client
     protobuf::libprotobuf
     gRPC::grpc++
 )
