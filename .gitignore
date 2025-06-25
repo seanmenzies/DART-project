@@ -19,6 +19,7 @@ install/
 *.pdb
 
 # Generated protobuf/grpc files (if needed to regenerate)
+*.pb
 *.pb.cc
 *.pb.h
 *.grpc.pb.cc
